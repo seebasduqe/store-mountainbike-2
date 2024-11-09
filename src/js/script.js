@@ -11,7 +11,6 @@ fetch("https://api-mountainbikeworld.onrender.com/api/bikes", {
 
     data.forEach(product => {
 
-      console.log(product);
 
       const productDiv = `
             <div class="bg-gray-800 rounded-lg flex flex-col items-center justify-center w-full max-w-lg mx-auto"> 
@@ -78,7 +77,7 @@ function sendForm() {
     .then(res => res.json())
     .then(res => {
       console.log("respuesta de la api", res);
-      window.location.reload();
+      //window.location.reload();
     })
 }
 
