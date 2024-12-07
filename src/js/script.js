@@ -1,8 +1,7 @@
-fetch("https://api-mountainbikeworld.onrender.com/api/bikes", {
+const host = 'http://localhost:5000' //'https://api-mountainbikeworld.onrender.com';
+fetch(`${host}/api/bikes`, {
   method: "GET",
-  headers: {
-    "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEwLCJlbWFpbCI6InMuZHVxdWVAdXRwLmVkdS5jbyIsImlhdCI6MTcyNzQ3MDkwOSwiZXhwIjoxNzQ0NzUwOTA5fQ.LquNxNAn0Go149_lyKDbMc10QE2J60K_OQTLXkG_b3w"
-  }
+  headers: {}
 })
   .then(response => response.json())
   .then(data => {
@@ -14,7 +13,7 @@ fetch("https://api-mountainbikeworld.onrender.com/api/bikes", {
 
       const productDiv = `
             <div class="bg-gray-800 rounded-lg flex flex-col items-center justify-center w-full max-w-lg mx-auto"> 
-              <img class="w-55 h-64 mx-auto rounded-lg mb-4 shadow-lg shadow-teal-500" src="../public/${product.imageUrl || 'default-image.png'}" alt="${product.title}">
+              <img class="w-55 h-64 mx-auto rounded-lg mb-4 shadow-lg shadow-teal-500" src="${product.imageUrl}" alt="${product.title}">
                 <div class="p-6">
                     <div class="flex items-center justify-between mb-2">
                         <h2 class="block text-xl font-semibold text-center text-white">${product.title}</h2>
@@ -30,6 +29,11 @@ fetch("https://api-mountainbikeworld.onrender.com/api/bikes", {
                     </svg>
                     <span class="mx-1">Al carrito</span>
                 </button>
+                <a href="editBike.html?product_id=${product.id}" class="flex items-center justify-center w-full px-2 py-2 mt-4 font-medium tracking-wide text-white capitalize transition-colors duration-200 transform rounded-md hover:bg-orange-500 focus:outline-none focus:bg-orange-400">  <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 mx-1" viewBox="0 0 20 20" fill="currentColor">
+                      <path d="M17.3 6.7a2.1 2.1 0 010 2.98L7.4 19l-1.4-1.4L15.9 3.3zM12.6 6.7l4.7 4.7-1.4 1.4-4.7-4.7z" />
+                    </svg>
+                    <span class="mx-1">Editar</span>
+                </a>
                 <button onclick="deletePost(${product.id})" style="background-color: rgb(220 38 38 / 1)" class="flex items-center justify-center w-full px-2 py-2 mt-4 font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-gray-800 rounded-md hover:bg-gray-700 focus:outline-none focus:bg-gray-700">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
                       <path d="M3 2a1 1 0 011-1h12a1 1 0 011 1v1h2a1 1 0 110 2h-1v13a2 2 0 01-2 2H5a2 2 0 01-2-2V4H2a1 1 0 110-2h2V2zM5 4h10v13H5V4z" />
@@ -69,7 +73,7 @@ function sendForm() {
     imageUrl: image
   }
 
-  fetch("https://api-mountainbikeworld.onrender.com/api/bikes", {
+  fetch(`${host}/api/bikes`, {
     method: "POST",
     headers: {"Content-type": "application/json"},
     body: JSON.stringify(body)
@@ -77,14 +81,14 @@ function sendForm() {
     .then(res => res.json())
     .then(res => {
       console.log("respuesta de la api", res);
-      //window.location.reload();
+      window.location.href = "http://127.0.0.1:5500/src/html/bikes.html";
     })
 }
 
 
 function deletePost(id) {
   console.log('entro');
-  fetch(`https://api-mountainbikeworld.onrender.com/api/bikes/${id}`, {
+  fetch(`${host}/api/bikes/${id}`, {
     method: "DELETE",
     headers: {},
   })
